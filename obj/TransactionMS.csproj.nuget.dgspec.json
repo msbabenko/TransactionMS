@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\hacka\\Desktop\\BankApp\\TransactionMS\\TransactionMS.csproj": {}
+    "C:\\Users\\hacka\\Desktop\\RulesMS\\TransactionMS\\TransactionMS.csproj": {}
   },
   "projects": {
-    "C:\\Users\\hacka\\Desktop\\BankApp\\TransactionMS\\TransactionMS.csproj": {
+    "C:\\Users\\hacka\\Desktop\\RulesMS\\TransactionMS\\TransactionMS.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\hacka\\Desktop\\BankApp\\TransactionMS\\TransactionMS.csproj",
+        "projectUniqueName": "C:\\Users\\hacka\\Desktop\\RulesMS\\TransactionMS\\TransactionMS.csproj",
         "projectName": "TransactionMS",
-        "projectPath": "C:\\Users\\hacka\\Desktop\\BankApp\\TransactionMS\\TransactionMS.csproj",
+        "projectPath": "C:\\Users\\hacka\\Desktop\\RulesMS\\TransactionMS\\TransactionMS.csproj",
         "packagesPath": "C:\\Users\\hacka\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\hacka\\Desktop\\BankApp\\TransactionMS\\obj\\",
+        "outputPath": "C:\\Users\\hacka\\Desktop\\RulesMS\\TransactionMS\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\hacka\\AppData\\Roaming\\NuGet\\NuGet.Config",

@@ -24,7 +24,7 @@ namespace TransactionMS.Services
                 string status = "";
                 using (var client = new HttpClient())
                 {
-                    client.BaseAddress = new Uri("http://localhost:49937/api/");
+                    client.BaseAddress = new Uri("https://account-ms.azurewebsites.net/api/");
                     var postTask = client.PostAsJsonAsync<DepositDTO>("Transaction/Deposit", depositDTO);
                     postTask.Wait();
                     var result = postTask.Result;
@@ -57,7 +57,7 @@ namespace TransactionMS.Services
                 string status = "";
                 using (var client = new HttpClient())
                 {
-                    client.BaseAddress = new Uri("http://localhost:49937/api/");
+                    client.BaseAddress = new Uri("https://account-ms.azurewebsites.net/api/");
                     var postTask = client.PostAsJsonAsync<DepositDTO>("Transaction/Withdraw", depositDTO);
                     postTask.Wait();
                     var result = postTask.Result;
@@ -87,7 +87,7 @@ namespace TransactionMS.Services
             //{
                 using (var client = new HttpClient())
                 {
-                    client.BaseAddress = new Uri("http://localhost:49937/api/");
+                    client.BaseAddress = new Uri("https://account-ms.azurewebsites.net/api/");
                     var postTask = client.PostAsJsonAsync<TransferDTO>("Transaction/Transfer", transferDTO);
                     postTask.Wait();
                     var result = postTask.Result;
