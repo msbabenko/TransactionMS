@@ -109,16 +109,17 @@ namespace TransactionMS.Services
 
             if (statusDTO.status=="SUCESS" && statusDTO.ToAccountstatus == "SUCESS")
             {
-                UpdateTransactionHistory("DEBITED", transferDTO.FromAccountId,transferDTO.ToAccountId,transferDTO.Amount, "SUCESS");
-                UpdateTransactionHistory("CREDITED", transferDTO.FromAccountId, transferDTO.ToAccountId, transferDTO.Amount, "SUCESS");
+                UpdateTransactionHistory("TRANSFER", transferDTO.FromAccountId, transferDTO.ToAccountId, transferDTO.Amount, "SUCESS");
+                // UpdateTransactionHistory("DEBITED", transferDTO.FromAccountId,transferDTO.ToAccountId,transferDTO.Amount, "SUCESS");
+                // UpdateTransactionHistory("CREDITED", transferDTO.FromAccountId, transferDTO.ToAccountId, transferDTO.Amount, "SUCESS");
             }
             else if (statusDTO.status == "INSUFFICIENT FUNDS")
             {
-                UpdateTransactionHistory("DEBITED", transferDTO.FromAccountId, transferDTO.ToAccountId, transferDTO.Amount, "INSUFFICIENT FUNDS");
+                UpdateTransactionHistory("TRANSFER", transferDTO.FromAccountId, transferDTO.ToAccountId, transferDTO.Amount, "INSUFFICIENT FUNDS");
             }
             else if (statusDTO.status == "From ID NOT FOUND" || statusDTO.status == "TO ID NOT FOUND")
             {
-                UpdateTransactionHistory("DEBITED", transferDTO.FromAccountId, transferDTO.ToAccountId, transferDTO.Amount, statusDTO.status);
+                UpdateTransactionHistory("TRANSFER", transferDTO.FromAccountId, transferDTO.ToAccountId, transferDTO.Amount, statusDTO.status);
             }
             return statusDTO;
         }
