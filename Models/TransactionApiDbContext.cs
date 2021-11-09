@@ -39,7 +39,7 @@ namespace TransactionMS.Models
 
                 entity.ToTable("TransactionHistory");
 
-                entity.Property(e => e.TransactionDate).HasColumnType("date");
+                entity.Property(e => e.TransactionDate).HasColumnType("datetime2(0)");
 
                 entity.Property(e => e.TransactionStatus)
                     .HasMaxLength(20)

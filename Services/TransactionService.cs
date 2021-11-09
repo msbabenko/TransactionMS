@@ -1,5 +1,7 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Json;
@@ -134,7 +136,24 @@ namespace TransactionMS.Services
             transactionHistory.Amount = amount;
             transactionHistory.TransactionStatus = transactionStatus;
             _Context.TransactionHistories.Add(transactionHistory);
-            _Context.SaveChanges();
+            Debug.WriteLine(transactionHistory.TransactionDate);
+            try
+            {
+                _Context.SaveChanges();
+            }
+            catch (DbUpdateConcurrencyException ce) 
+            {
+                Debug.WriteLine(" --- Error: "+ce.Message);
+            }
+            catch (DbUpdateException ue)
+            {
+                Debug.WriteLine(" --- Error: " + ue.Message);
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine(" --- Error: " + e.Message);
+            }
+
 
         }
 
