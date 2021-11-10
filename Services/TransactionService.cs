@@ -157,11 +157,53 @@ namespace TransactionMS.Services
 
         }
 
-        public List<TransactionHistory> getTransactions(int customerId)
+        //public List<TransactionHistory> getTransactions(int customerId)
+        //{
+        //   // /List<TransactionHistory> transactionHistories = null;
+        //   // transactionHistories = _Context.TransactionHistories.Where(i => i.ToAccount == customerId || i.FromAccount == customerId ).ToList();
+        //   // return transactionHistories;
+        //}
+
+       
+      public List<TransactionHistory> getTransactions(int customerId)
         {
+            List<AccountDTO> CAccounts = GetAccountIds(customerId);
             List<TransactionHistory> transactionHistories = null;
-            transactionHistories = _Context.TransactionHistories.Where(i => i.ToAccount == customerId || i.FromAccount == customerId ).ToList();
+
+            //transactionHistories = _Context.TransactionHistories.Where(i => i.ToAccount == customerId || i.FromAccount == customerId ).ToList();
+            try
+            {
+                transactionHistories = _Context.TransactionHistories.Where(i => i.ToAccount == CAccounts[0].AccountId || i.ToAccount == CAccounts[1].AccountId || i.FromAccount == CAccounts[0].AccountId || i.FromAccount == CAccounts[1].AccountId).ToList();
+            }
+            catch (Exception)
+            {
+
+                return null;
+            }
+
             return transactionHistories;
         }
+
+        private List<AccountDTO> GetAccountIds(int customerId)
+        {
+            List<AccountDTO> CAccounts = null;
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri("https://account-ms.azurewebsites.net/api/"); //http://localhost:49937/ //https://account-ms.azurewebsites.net/api/
+                var postTask = client.GetAsync("Account/GetAccounts/"+ customerId);
+                postTask.Wait();
+                var result = postTask.Result;
+                if (result.IsSuccessStatusCode)
+                {
+                    var data = result.Content.ReadFromJsonAsync<List<AccountDTO>>();
+                    data.Wait();
+                    CAccounts = data.Result;
+
+                }
+            }
+            return CAccounts;
+        }
+
+
     }
 }

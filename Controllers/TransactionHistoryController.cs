@@ -30,7 +30,7 @@ namespace TransactionMS.Controllers
 
         // GET api/<TransactionHistoryController>/5
         [HttpGet("getTransactions/{id}")]
-        public async Task<ActionResult<IList<TransactionHistory>>> Get(int id)
+        public async Task<ActionResult<List<TransactionHistory>>> Get(int id)
         {
             return _service.getTransactions(id);
         }
