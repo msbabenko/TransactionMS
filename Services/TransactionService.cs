@@ -19,11 +19,12 @@ namespace TransactionMS.Services
             _Context = transactionApiDbContext;
         }
         
-        public string DepositMoney(DepositDTO depositDTO)
+        public StatusDTO DepositMoney(DepositDTO depositDTO)
         {
+            StatusDTO statusDTO = new();
             //try
             //{
-                string status = "";
+            string status = "";
                 using (var client = new HttpClient())
                 {
                     client.BaseAddress = new Uri("https://account-ms.azurewebsites.net/api/");
@@ -35,12 +36,12 @@ namespace TransactionMS.Services
                         var data = result.Content.ReadFromJsonAsync<StatusDTO>();
                         data.Wait();
                         status = data.Result.status;
-
+                        statusDTO = data.Result;
                     }
                 }
-                UpdateTransactionHistory("DEPOSIT", 1, depositDTO.AccountId, depositDTO.Amount, status);
+                UpdateTransactionHistory("DEPOSIT", depositDTO.AccountId, depositDTO.AccountId, depositDTO.Amount, statusDTO.status);
 
-                return status;
+                return statusDTO;
       //  }
             //catch (Exception)
             //{
@@ -52,11 +53,13 @@ namespace TransactionMS.Services
 
 }
 
-        public string WithdrawMoney(DepositDTO depositDTO)
+        public StatusDTO WithdrawMoney(DepositDTO depositDTO)
         {
-            //try
-            //{
-                string status = "";
+
+            StatusDTO statusDTO = new();
+            try
+            {
+                // string status = "";
                 using (var client = new HttpClient())
                 {
                     client.BaseAddress = new Uri("https://account-ms.azurewebsites.net/api/");
@@ -67,26 +70,28 @@ namespace TransactionMS.Services
                     {
                         var data = result.Content.ReadFromJsonAsync<StatusDTO>();
                         data.Wait();
-                        status = data.Result.status;
+                        // status = data.Result.status;
+                        statusDTO = data.Result;
 
                     }
                 }
-                UpdateTransactionHistory("WITHDRAW", depositDTO.AccountId, 1, depositDTO.Amount, status);
-                return status;
-           // }
-            //catch (Exception)
-            //{
+                UpdateTransactionHistory("WITHDRAW", depositDTO.AccountId, depositDTO.AccountId, depositDTO.Amount, statusDTO.status);
+                return statusDTO;
+            }
+            catch (Exception e)
+            {
+                statusDTO.status = e.Message;
+                return statusDTO;
+            }
 
-            //    return "SERRVER DOWN";
-            //}
-           
+
         }
 
         public StatusDTO Transfer(TransferDTO transferDTO)
         {
             StatusDTO statusDTO = new();
-            //try
-            //{
+            try
+            {
                 using (var client = new HttpClient())
                 {
                     client.BaseAddress = new Uri("https://account-ms.azurewebsites.net/api/");
@@ -101,12 +106,11 @@ namespace TransactionMS.Services
 
                     }
                 }
-          //  }
-            //catch (Exception)
-            //{
-
-            //    return null;
-            //}
+           }
+            catch (Exception)
+            {
+               return null;
+            }
             
 
             if (statusDTO.status=="SUCESS" && statusDTO.ToAccountstatus == "SUCESS")
@@ -135,8 +139,9 @@ namespace TransactionMS.Services
             transactionHistory.ToAccount = toAccount;
             transactionHistory.Amount = amount;
             transactionHistory.TransactionStatus = transactionStatus;
+
             _Context.TransactionHistories.Add(transactionHistory);
-            Debug.WriteLine(transactionHistory.TransactionDate);
+           
             try
             {
                 _Context.SaveChanges();
@@ -204,6 +209,39 @@ namespace TransactionMS.Services
             return CAccounts;
         }
 
+
+        public StatusDTO evaluateMinBal(DepositDTO depositDTO)
+        {
+            StatusDTO statusDTO = new();
+            try
+            {
+               // string status = "";
+                using (var client = new HttpClient())
+                {
+                    client.BaseAddress = new Uri("https://account-ms.azurewebsites.net/api/");
+                    var postTask = client.PostAsJsonAsync<DepositDTO>("Transaction/Withdraw", depositDTO);
+                    postTask.Wait();
+                    var result = postTask.Result;
+                    if (result.IsSuccessStatusCode)
+                    {
+                        var data = result.Content.ReadFromJsonAsync<StatusDTO>();
+                        data.Wait();
+                       // status = data.Result.status;
+                        statusDTO = data.Result;
+
+                    }
+                }
+                UpdateTransactionHistory("WITHDRAW", depositDTO.AccountId, depositDTO.AccountId, depositDTO.Amount, statusDTO.status);
+                return statusDTO;
+            }
+            catch (Exception e)
+            {
+                statusDTO.status = e.Message;
+                return statusDTO;
+            }
+
+
+        }
 
     }
 }

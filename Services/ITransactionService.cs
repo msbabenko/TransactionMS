@@ -8,8 +8,8 @@ namespace TransactionMS.Services
 {
     public interface ITransactionService
     {
-        public string DepositMoney(DepositDTO depositDTO);
-        public string WithdrawMoney(DepositDTO depositDTO);
+        public StatusDTO DepositMoney(DepositDTO depositDTO);
+        public StatusDTO WithdrawMoney(DepositDTO depositDTO);
         public StatusDTO Transfer(TransferDTO transferDTO);
         public List<TransactionHistory> getTransactions(int customerId);
     }

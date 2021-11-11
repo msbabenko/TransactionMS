@@ -39,14 +39,14 @@ namespace TransactionMS.Controllers
         // POST api/<TransactionHistoryController>
         [Route("Deposit")]
         [HttpPost]
-        public async Task<ActionResult<string>> Deposit([FromBody] DepositDTO value)
+        public async Task<ActionResult<StatusDTO>> Deposit([FromBody] DepositDTO value)
         {
             return _service.DepositMoney(value);
         }
 
         [Route("Withdraw")]
         [HttpPost]
-        public async Task<ActionResult<string>> Withdraw([FromBody] DepositDTO value)
+        public async Task<ActionResult<StatusDTO>> Withdraw([FromBody] DepositDTO value)
         {
             return _service.WithdrawMoney(value);
         }
